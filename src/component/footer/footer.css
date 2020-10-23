@@ -1,0 +1,7 @@
+.copyright {
+    list-style: none;
+}
+.copyright > li {
+    display: inline-block;
+    font-size: 0.8em;
+}

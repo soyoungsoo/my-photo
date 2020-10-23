@@ -1,0 +1,7 @@
+.thumbnail {
+    width: 50%;
+}
+.thumbnail > img {
+    display: block;
+    width: 100%;
+}

@@ -1,0 +1,22 @@
+#header {
+    padding: 3em 2.25em 1.75em 2.25em;
+}
+
+h1 {
+    text-align: center;
+    line-height: 1.25;
+    margin: 0 0 0.5em 0;
+    color: #555;
+}
+p {
+    color: #aaa;
+}
+.icons {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 25px;
+}
+
+.icons > i {
+    cursor: pointer;
+}
