@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import {useSelector} from "react-redux";
-import {CHOOSE_PHOTO} from '../../../src/action/viewer';
+import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {CHOOSE_PHOTO, nextPhoto, prevPhoto} from '../../../src/action/viewer';
 import './viewer.css';
 import 'assets/css/keyframs.css';
 import $ from "jquery";
@@ -9,6 +9,7 @@ import $ from "jquery";
 
 
 function Viewer() {
+    const dispatch = useDispatch();
     const viewer = useSelector(state => state.viewer);
     const viewerEl = useRef(null);
     const iconCloseEl = useRef(null);
@@ -20,7 +21,7 @@ function Viewer() {
             iconCloseEl.current.style.display = 'block';
             $('#viewer').animate({opacity: 1}, 300);
         } else {
-            $('#viewer').stop().animate({opacity: 0}, 500, function () {
+            $('#viewer').stop().animate({opacity: 0}, 1, function () {
                 $('#viewer').animate({opacity: 1}, 800);
             });
         }
@@ -33,11 +34,25 @@ function Viewer() {
         iconCloseEl.current.style.display = 'none';
     };
 
+    const onClickPrev = () => {
+        $('#viewer').stop().animate({opacity: 0}, 1, function () {
+            $('#viewer').animate({opacity: 1}, 800);
+            dispatch(prevPhoto(viewer.currentIndex));
+        });
+    };
+
+    const onClickNext = () => {
+        $('#viewer').stop().animate({opacity: 0}, 1, function () {
+            $('#viewer').animate({opacity: 1}, 800);
+            dispatch(nextPhoto(viewer.currentIndex));
+        });
+    };
+
     return <div id="viewer" ref={viewerEl}>
                 <div className="inner">
-                    <div className="nav-next"></div>
+                    <i className="xi-angle-left xi-2x icon-prev" onClick={onClickPrev}></i>
                     <img className="icon-close" ref={iconCloseEl} src={require('assets/images/icon/close.svg')} onClick={onClick}/>
-                    <div className="toggle"></div>
+                    <i className="xi-angle-right xi-2x icon-next" onClick={onClickNext}></i>
                 </div>
                 <div className="slider">
                     <div className="slide-image" style={{backgroundImage: `url(${viewer.photo[viewer.currentIndex].url})`}}>
