@@ -1,5 +1,6 @@
 .thumbnail {
     width: 50%;
+    height: 100px;
 }
 .thumbnail > img {
     display: block;
