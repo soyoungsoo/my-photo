@@ -1,27 +1,21 @@
 import React from 'react';
-import Photo from "component/photolist/Photo";
+import Photo from "component/photo/Photo";
 import './photoList.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { choosePhoto } from '../../action/viewer';
 
 function PhotoList() {
-    const images = [
-        {src: require('assets/images/thumbs/01.jpg')},
-        {src: require('assets/images/thumbs/02.jpg')},
-        {src: require('assets/images/thumbs/03.jpg')},
-        {src: require('assets/images/thumbs/04.jpg')},
-        {src: require('assets/images/thumbs/05.jpg')},
-        {src: require('assets/images/thumbs/06.jpg')},
-        {src: require('assets/images/thumbs/07.jpg')},
-        {src: require('assets/images/thumbs/08.jpg')},
-        {src: require('assets/images/thumbs/09.jpg')},
-        {src: require('assets/images/thumbs/10.jpg')},
-        {src: require('assets/images/thumbs/11.jpg')},
-        {src: require('assets/images/thumbs/12.jpg')},
-    ];
+    const images = useSelector(state => state.viewer);
+    const dispatch = useDispatch();
+
+    const onClick = (index) => {
+        dispatch(choosePhoto(index));
+    };
 
     return <section id="thumbnails">
                 {
-                    images.map((image, index) =>
-                        <Photo key={index} img_src={image.src}/>
+                    images.photo.map((photo, index) =>
+                        <Photo index={index} key={index} img_src={photo.url} currentIndex={images.currentIndex} onClick={() => onClick(index)}/>
                     )
                 }
             </section>;

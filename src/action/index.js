@@ -1,5 +1,5 @@
-import * as todo from "./todo";
+import * as viewer from "./viewer";
 
 export default {
-    todo
+    viewer
 }

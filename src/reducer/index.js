@@ -1,8 +1,6 @@
-import todos from "./todos";
-import aa from "./aa";
+import viewer from "./viewer";
 import { combineReducers } from "redux";
 
 export default combineReducers({
-    todos,
-    aa
+    viewer
 });

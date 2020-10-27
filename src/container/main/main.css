@@ -1,0 +1,19 @@
+#photoInfo {
+    -webkit-animation-name: leftMoving;
+    -webkit-animation-duration: 1s;
+    animation-name: leftMoving;
+    animation-duration: 1s;
+    background-color: white;
+}
+
+@media screen and (max-width: 768px){
+    #photoInfo {
+        width: 100% !important;
+        z-index: 1;
+        -webkit-animation-name: padeIn;
+        -webkit-animation-duration: 1s;
+        animation-name: padeIn;
+        animation-duration: 1s;
+        background-color: white;
+    }
+}

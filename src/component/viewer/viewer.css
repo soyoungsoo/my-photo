@@ -4,6 +4,35 @@
     height: 100vh;
 }
 
+#viewer .icon-close {
+    display: none;
+    top: 0;
+    right: 0;
+}
+
+#viewer > .inner > i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 50px;
+    height: 100%;
+}
+#viewer > .inner > .icon-next {
+    right: 0;
+}
+
+#viewer > .inner > .icon-prev {
+    left: 0;
+}
+
+#viewer > .inner > * {
+    position: absolute;
+    cursor: pointer;
+}
+
 .slider {
     width: 100%;
     height: 100%;
@@ -15,10 +44,14 @@
     left: 0;
     width: 100%;
     height: 100%;
+    opacity: 1;
     background-size: cover;
     background-position: left center;
-    background-image: url(~assets/images/fulls/01.jpg);
     background-repeat: no-repeat;
+    -webkit-animation-name: padeout;
+    -webkit-animation-duration: 2s;
+    animation-name: padeout;
+    animation-duration: 2s;
 }
 
 .caption {
@@ -34,4 +67,19 @@
 
 .caption h2 {
     color: white;
+}
+
+.slick-list {
+    width: 100%;
+    height: 100%;
+}
+.slick-track {
+    width: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width: 768px){
+    #viewer {
+        width: 100%;
+    }
 }
