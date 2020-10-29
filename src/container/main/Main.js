@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from 'component/header/Header';
 import PhotoList from 'container/photolist/PhotoList';
 import Footer from 'component/footer/Footer';
@@ -6,23 +6,39 @@ import Viewer from 'component/viewer/Viewer';
 import './main.css';
 import 'assets/css/keyframs.css';
 import API from '../../axios';
-import { addPhoto } from '../../action/viewer';
-import { useDispatch } from 'react-redux';
-
+import { addPhoto, deletePhoto } from '../../action/viewer';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Main() {
     const dispatch = useDispatch();
     let [image, setImage] = useState(null);
+    let currentIndex = useSelector(state => state.viewer.currentIndex);
+    let photoArray = useSelector(state => state.viewer.photo);
 
-    API.get("/api/v1/photo/img").then((res) => {
-        console.log(res.data.length);
-        for (var i = 0; i < res.data.length; i++) {
-            dispatch(addPhoto('title', 'desc', 'http://localhost:3000/directory/photo/' + res.data[i]));
-        }
-    });
+    useEffect(() => {
+        API.get("/api/v1/photo/img").then((res) => {
+            for (var i = 0; i < res.data.length; i++) {
+                dispatch(addPhoto('title', 'desc', res.data[i]));
+            }
+        });
+    }, []);
 
     const onChange = (e) => {
         setImage(e.target.files);
+    };
+    const onClickDelete = () => {
+        if (window.confirm("선택한 사진을 삭제할까요?")) {
+            let remove_file = photoArray[currentIndex].url;
+            API.delete("/api/v1/photo/img", {data: {filename: remove_file}}).then((res) => {
+                dispatch(deletePhoto(currentIndex));
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+    };
+
+    const onClickDownload = () => {
+        window.location.href = 'http://localhost:3000/api/v1/photo/download?filename=' +  photoArray[currentIndex].url;
     };
 
     const onClick = async () => {
@@ -33,7 +49,7 @@ function Main() {
 
         await API.post("/api/v1/photo/img", formData).then((res) => {
             for (var i = 0; i < image.length; i++) {
-                dispatch(addPhoto('title', 'desc', 'http://localhost:3000/' + res.data[i]));
+                dispatch(addPhoto('title', 'desc', res.data[i]));
             }
         });
     };
@@ -43,7 +59,7 @@ function Main() {
                 <div id="photoInfo" style={infoStyle}>
                     <input type="file" multiple accept="image/*" onChange={onChange} />
                     <input type="submit" onClick={onClick}/>
-                    <Header/>
+                    <Header onClickDownload={onClickDownload} onClickDelete={onClickDelete}/>
                     <PhotoList/>
                     <Footer/>
                 </div>

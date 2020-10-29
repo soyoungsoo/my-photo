@@ -1,5 +1,5 @@
 import todoAction from '../action/index';
-const {ADD_PHOTO, CHOOSE_PHOTO, NEXT_PHOTO, PREV_PHOTO} = todoAction.viewer;
+const {ADD_PHOTO, DELETE_PHOTO, CHOOSE_PHOTO, NEXT_PHOTO, PREV_PHOTO} = todoAction.viewer;
 
 const view = (state, action) => {
     let size = 0;
@@ -8,6 +8,13 @@ const view = (state, action) => {
             return {
                 ...state,
                 photo: [...state.photo, {title: action.title, desc: action.desc, url: action.url}]
+            };
+        case DELETE_PHOTO:
+            state.photo.splice(action.index, 1);
+            return {
+                ...state,
+                currentIndex: 0,
+                type: action.type
             };
         case CHOOSE_PHOTO:
             return {
@@ -57,6 +64,8 @@ const view = (state, action) => {
 const viewer = (state = [], action) => {
     switch (action.type) {
         case ADD_PHOTO:
+            return view(state, action);
+        case DELETE_PHOTO:
             return view(state, action);
         case CHOOSE_PHOTO:
             return view(state, action);
